@@ -3,30 +3,35 @@ class tamagotchi
     int hunger;
     int boredom;
     public bool isAlive = true;
-    List<string> words = new();
+    int money = 100;
+    int gamble;
+
+   public List<string> wordList = new();
+    
+    
 
     Random gen = new();
     public string name;
 
     public void Feed()
     {
-        Console.WriteLine("Feed Da Dog");
+        Console.WriteLine($"You fed {name}!");
         hunger = 0;
     }
 
     public void Hi()
     {
-        int choice = gen.Next(words.Count);
-        Console.WriteLine(words[choice]);
+        int choice = gen.Next(wordList.Count);
+        Console.WriteLine(wordList[choice]);
         Reduceboredom();
     }
 
     public void Teach()
     {
-        Console.WriteLine("What word would you like to teach your child?");
+        Console.WriteLine($"What word would you like to teach {name}?");
         string word = Console.ReadLine();
-        words.Add(word);
-        Console.WriteLine($"You taught your child to say '{word}'");
+        wordList.Add(word);
+        Console.WriteLine($"You taught {name} to say '{word}'");
         Reduceboredom();
     }
 
@@ -35,7 +40,7 @@ class tamagotchi
 
         boredom += gen.Next(3);
         hunger += gen.Next(5);
-        if (hunger >= 10 || boredom >= 20)
+        if (hunger >= 50 || boredom >= 100)
         {
             isAlive = false;
         }
@@ -52,7 +57,7 @@ class tamagotchi
         {
             aliveTrue = "Dead";
         }
-        Console.WriteLine($"hunger: {hunger}, Boredom: {boredom}, Your kid is {aliveTrue}");
+        Console.WriteLine($"hunger: {hunger}, Boredom: {boredom}, Money: {money}, {name} is {aliveTrue}");
     }
 
     public bool GetAlive()
@@ -70,5 +75,19 @@ class tamagotchi
     void Reduceboredom()
     {
         boredom = boredom/2;
+    }
+
+    public void Gamble()
+    {
+        gamble = gen.Next(20);
+        if (gamble >= 13)
+        {
+            money += gen.Next(20);
+            Console.WriteLine("You won 10$!");
+        }
+        else{
+            Console.WriteLine("You lost 10$!");
+            money -= 10;
+        }
     }
 }
